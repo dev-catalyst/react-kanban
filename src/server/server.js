@@ -22,7 +22,8 @@ const app = express();
 
 const MongoStore = connectMongo(session);
 
-MongoClient.connect(process.env.MONGODB_URL).then(client => {
+// useNewUrlParser attribute added to avoid DeprecationWarning
+MongoClient.connect(process.env.MONGODB_URL, { useNewUrlParser: true }).then(client => {
   const db = client.db(process.env.MONGODB_NAME);
 
   configurePassport(db);
@@ -59,4 +60,4 @@ MongoClient.connect(process.env.MONGODB_URL).then(client => {
   const port = process.env.PORT || "1337";
   /* eslint-disable no-console */
   app.listen(port, () => console.log(`Server listening on port ${port}`));
-});
+}).catch(err => console.log('ERROR is: ', err)); // added catch for better error readability

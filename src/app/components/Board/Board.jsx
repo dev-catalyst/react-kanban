@@ -8,6 +8,7 @@ import List from "../List/List";
 import ListAdder from "../ListAdder/ListAdder";
 import Header from "../Header/Header";
 import BoardHeader from "../BoardHeader/BoardHeader";
+import Table from "../Table/Table"
 import "./Board.scss";
 
 class Board extends Component {
@@ -153,18 +154,22 @@ class Board extends Component {
                 direction="horizontal"
               >
                 {provided => (
-                  <div className="lists" ref={provided.innerRef}>
-                    {lists.map((list, index) => (
-                      <List
-                        list={list}
-                        boardId={boardId}
-                        index={index}
-                        key={list._id}
-                      />
-                    ))}
-                    {provided.placeholder}
-                    <ListAdder boardId={boardId} />
-                  </div>
+                  <>
+                    <div className="lists" ref={provided.innerRef}>
+                      {lists.map((list, index) => (
+                        <List
+                          list={list}
+                          boardId={boardId}
+                          index={index}
+                          key={list._id}
+                        />
+                      ))}
+                      {provided.placeholder}
+                      <ListAdder boardId={boardId} />
+                    </div>
+                    {/* displaying table only if boards exist */}
+                    {lists.length > 0 ? <Table lists={lists}/> : null}
+                  </>
                 )}
               </Droppable>
             </DragDropContext>
